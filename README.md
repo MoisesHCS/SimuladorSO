@@ -1,45 +1,47 @@
-# Simulador Simplificado (FCFS) — versão didática
+# SimuladorSO
 
-Versão mínima só pra entender o mecanismo de um simulador de eventos
-discretos: **clock lógico avançando de evento em evento**, nunca em tempo
-real. Cada evento pode gerar novos eventos futuros.
+Simulador de escalonamento de CPU 
 
-## Como rodar
+## Como funciona
 
-Não precisa de argumento nenhum — só apertar **F5** no Visual Studio, ou:
+O simulador representa o tempo através de um clock lógico, que avança
+conforme os eventos vão sendo processados (chegada de um processo e fim de
+execução). Cada processo tem um instante de chegada e uma duração de CPU.
 
-```bash
-dotnet run
-```
+Quando um processo chega, ele entra na fila de prontos. Se a CPU estiver
+livre, o processo da frente da fila é despachado e executa até terminar.
+Ao final da execução, o próximo processo da fila é despachado, e assim por
+diante até que todos os processos tenham sido concluídos.
 
-A carga de exemplo está fixa dentro do `Program.cs` (4 processos). Pra testar
-outro cenário, edite a lista `processos` no fim do arquivo.
+Durante a execução, o simulador imprime um log de cada evento (chegada e
+despacho) no console. Ao final, são exibidas as métricas de cada processo:
+tempo de retorno (tempo entre a chegada e a finalização) e tempo de espera
+(tempo entre a chegada e o início da execução), além das médias gerais.
 
-## O que tem
+## Como executar
 
-- Um clock lógico (`_clock`) que só avança quando um evento é processado
-- Uma fila de eventos simples (lista + ordenação por tempo e sequência)
-- Uma fila de prontos (FCFS: primeiro que chega, primeiro que executa)
-- Log de cada evento no console
-- Métricas no final: tempo de retorno e tempo de espera por processo
+A lista de processos está definida diretamente no `Program.cs`. Para rodar:
+No Visual Studio, basta abrir `SimuladorSO.sln` e apertar **F5**.
 
-## O que foi cortado (de propósito, pra simplificar)
+## Estrutura
 
-Essa versão **não cumpre os requisitos da entrega intermediária**. Ela serve
-só como ponto de partida pra entender a lógica antes de estudar a versão
-completa (pasta `SOSimulator/`). Ficou de fora:
+- `Processo` — representa cada tarefa, com chegada, duração de CPU e os
+  instantes de início/fim
+- `Evento` — representa algo que acontece em um instante do clock (chegada
+  ou fim de execução)
+- `Simulador` — controla o clock, a fila de eventos, a fila de prontos e
+  imprime o log e as métricas
 
-- Separação entre Processo e Thread (não tem PCB/TCB)
-- Mais de um surto de CPU por processo / operações de E/S
-- Round Robin e Prioridades (só tem FCFS)
-- Custo de troca de contexto
-- Carga de trabalho em arquivo externo (está fixa no código)
-- Testes automatizados
+## Integrantes
 
-## Próximo passo
+Moisés Henrique Campanholo da Silva RA: 114518
 
-Depois de entender esse arquivo único, dá uma olhada no projeto completo em
-`SOSimulator/` — ele tem a mesma ideia central (clock + fila de eventos),
-só que separado em classes/módulos e com os requisitos da entrega
-intermediária (PCB/TCB, threads, as 3 políticas de escalonamento,
-testes automatizados, carga de trabalho externa).
+Felipe Apolinário de Souza RA: 114771
+
+Bruno Otavio Passini RA: 115660
+
+João Victor Marquesan RA: 114610
+
+Anderson Pantolfi Moraes RA: 114426
+
+Gabriel Vinícius Krebski RA: 115442
